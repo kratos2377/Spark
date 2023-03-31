@@ -1,16 +1,22 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { useEffect } from 'react'
-import "bootstrap/dist/css/bootstrap.css"
-import "bootstrap-icons/font/bootstrap-icons.css"
-import Layout from "../components/Layout"
-export default function App({ Component, pageProps }: AppProps) {
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import SolWalletProvider from "../components/solWalletProvider";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { useEffect } from "react";
+
+function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-      import("bootstrap/dist/js/bootstrap")
-  } , [])
+    import("bootstrap/dist/js/bootstrap");
+  }, []);
+
   return (
-    <Layout>
-    <Component {...pageProps} />
-  </Layout>
-  )
+    <>
+      <SolWalletProvider>
+        <Component {...pageProps} />
+      </SolWalletProvider>
+    </>
+  );
 }
+
+export default MyApp;

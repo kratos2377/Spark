@@ -1,12 +1,32 @@
-import Navbar from "./Navbar"
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import useWalletHook from "../libs/useWalletHook";
+import CreateNewTweet from "./createNewTweet";
+import NavBar from "./Navbar";
 
 const Layout = (props: any) => {
-return (
-    <>
-    <Navbar/>
-    {props.children}
-    </>
-)
-}
+  const { connection, adapterWalletObj, anchorWalletObj } = useWalletHook();
 
-export default Layout
+  const router = useRouter();
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    if (anchorWalletObj?.publicKey) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+      router.push("/");
+    }
+  }, [anchorWalletObj]);
+
+  return (
+    <>
+      <NavBar loggedIn={loggedIn} />
+      <CreateNewTweet loggedIn={loggedIn} />
+
+      {props.children}
+    </>
+  );
+};
+
+export default Layout;
